@@ -7,6 +7,7 @@
     display: flex;
     box-sizing: border-box;
     flex-wrap:wrap;
+    flex-direction:column;
     width: 100%;
     height: auto;
     background-image: linear-gradient(rgb(226, 99, 99),rgb(184, 243, 107));
