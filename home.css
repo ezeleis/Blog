@@ -3,6 +3,9 @@
     justify-content:space-around;
     flex-wrap:wrap;
 }
+#load-more-button{
+    display: none;
+}
 .post{
     display: flex;
     box-sizing: border-box;
@@ -19,4 +22,5 @@
 h1{
     align-self: center;
 }
+
 
