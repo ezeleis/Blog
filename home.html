@@ -2,7 +2,17 @@
 <html>
     <head><link rel="stylesheet" href="home.css"></head>
     <body onload="blogFetch()">
-        <div id="blogContainer"></div>
+        <div id="blogContainer">
+            <div id ="blogModal" onclick="hideModal()">
+                <h2 id ="title"></h2>
+                <p id="body"></p>
+                <div id="comments">
+                    <span id="name"></span>
+                    <span id="email"></span>
+                    <p id="body"></p>
+                </div>
+            </div>
+        </div>
         <button id='load-more-button' onclick="blogFetch()">Carregar mais</button>
         <script src="home.js"></script>
     </body>

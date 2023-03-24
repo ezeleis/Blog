@@ -5,10 +5,11 @@ async function blogFetch(){
     let postsLimit = 20;
     let postCount = 0;
     fetchCount ++;
-    // console.log(2,page);
+
     await fetch (`https://jsonplaceholder.typicode.com/posts?_page=${postsPage}&_limit=${postsLimit}`)
         .then((json)=>{
             return json.json();
+            
         }).then((posts)=>{
             posts.forEach(createPost);
             posts.forEach(()=>postCount++);
@@ -51,18 +52,45 @@ function createPost(postObject){
     
 };
 
-function setCurrentPost(postObject){
-   currentPost={"id":postObject.id, "title":postObject.title, "body":postObject.body};
-   console.log(currentPost);
+async function setCurrentPost(postObject){
+   let id=postObject.id;
+   let title=postObject.title;
+   let body=postObject.body;
+   await loadComments(id,title,body);
+   openModal(currentPost);
 }
 
-async function getComments(postId){
-    await fetch (`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
-    .then((comments)=>{
-        return comments });
-};
+ async function loadComments(postId,postTitle,postBody){
+    let postComments = await fetch (`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
+    .then((json)=>{
+        return json.json() })
+    .then((comments)=>{return comments});
+    currentPost = {"id":postId,"title":postTitle,"body":postBody,"comments":postComments};
+    console.log(2,currentPost);
+}
 
-function comments(id,title,body){
-    let comments=getComments(id)
-    currentPost = {"id":id,"title":title,"body":body,"comments":comments};
+function openModal(currentPost){
+    document.getElementById("title").innerHTML = currentPost.title;
+    document.getElementById("body").innerHTML = currentPost.body;
+    currentPost.comments.forEach((comment)=>{
+        let postDiv = document.createElement("div");
+        let name=document.createElement("h3");
+        name.innerHTML = comment.name;
+        let body=document.createElement("p");
+        body.innerHTML=comment.body;
+        let email=document.createElement("span");
+        email.innerHTML=comment.email;
+        postDiv.appendChild(name)
+        postDiv.appendChild(document.createElement("br"));
+        postDiv.appendChild(email)
+        postDiv.appendChild(body);
+        document.getElementById("blogModal").appendChild(postDiv);
+    });
+    
+    document.getElementById("blogModal").style.display = "block";
+}
+
+function hideModal(){
+    document.getElementById("blogModal").style.display = "none";
+
 }
